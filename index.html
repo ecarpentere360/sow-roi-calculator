@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOW Writer ROI Calculator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #111827;
+            color: white;
+            padding: 20px;
+        }
+        .calculator {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #111827;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: #f3f4f6;
+            color: #111827;
+        }
+        .header h2 { font-size: 1.8rem; font-weight: bold; }
+        .content {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .content { grid-template-columns: 1fr; }
+        }
+        .controls { display: flex; flex-direction: column; gap: 20px; }
+        .control-group { display: flex; flex-direction: column; gap: 8px; }
+        .control-label { font-size: 0.9rem; font-weight: 500; }
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #4b5563;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+        }
+        .slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            border: none;
+        }
+        .results { text-align: center; }
+        .results-label { font-size: 1rem; color: #d1d5db; margin-bottom: 8px; }
+        .results-value { font-size: 2.5rem; font-weight: bold; line-height: 1.2; }
+        .results-period { font-size: 1rem; }
+        .warning {
+            background: rgba(153, 27, 27, 0.2);
+            border: 1px solid #dc2626;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 15px;
+            display: none;
+        }
+        .disclaimer { font-size: 0.7rem; color: #9ca3af; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="header">
+            <h2>SOW Writer ROI Calculator</h2>
+        </div>
+        <div class="content">
+            <div class="controls">
+                <div class="control-group">
+                    <label class="control-label">Number of Users: <span id="users-value">5</span></label>
+                    <input type="range" min="1" max="20" value="5" class="slider" id="users-slider">
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Average SE hourly rate ($): <span id="rate-value">220</span></label>
+                    <input type="range" min="100" max="400" value="220" step="10" class="slider" id="rate-slider">
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Hours Spent on SOWs per Week: <span id="hours-value">5</span></label>
+                    <input type="range" min="1" max="10" value="5" step="0.5" class="slider" id="hours-slider">
+                </div>
+                <div class="control-group">
+                    <label class="control-label">SOW Avg. Time Savings: <span id="savings-value">90</span>%</label>
+                    <input type="range" min="50" max="95" value="90" step="5" class="slider" id="savings-slider">
+                </div>
+            </div>
+            <div class="results">
+                <div>
+                    <p class="results-label">Savings using SOW Writer</p>
+                    <p class="results-value">
+                        <span id="monthly-savings">$0</span><span class="results-period">/month</span>
+                    </p>
+                </div>
+                <div style="margin-top: 15px;">
+                    <p class="results-value">
+                        <span id="annual-savings">$0</span><span class="results-period">/year</span>
+                    </p>
+                </div>
+                <div id="warning" class="warning">
+                    <p style="color: #fca5a5; font-size: 0.8rem;">
+                        ⚠️ Current settings show negative ROI. Consider adjusting team size or time savings.
+                    </p>
+                </div>
+                <div class="disclaimer">
+                    <p>* Net savings after ChatGPT Team license costs</p>
+                    <p>Based on 574 SOWs annually</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency', currency: 'USD',
+                minimumFractionDigits: 0, maximumFractionDigits: 0,
+            }).format(Math.max(0, amount));
+        }
+
+        function calculateROI() {
+            const numUsers = parseInt(document.getElementById('users-slider').value);
+            const hourlyRate = parseInt(document.getElementById('rate-slider').value);
+            const hoursPerSOW = parseFloat(document.getElementById('hours-slider').value);
+            const timeSaving = parseInt(document.getElementById('savings-slider').value);
+
+            const sowsPerYear = 574;
+            const manualTime = hoursPerSOW;
+            const automatedTime = manualTime * (1 - timeSaving / 100);
+            const savingsPerSOW = hourlyRate * (manualTime - automatedTime);
+            const monthlySavings = (savingsPerSOW * sowsPerYear) / 12;
+            const annualSavings = savingsPerSOW * sowsPerYear;
+
+            const annualChatGPTCost = numUsers * 25 * 12;
+            const netMonthlySavings = monthlySavings - annualChatGPTCost / 12;
+            const netAnnualSavings = annualSavings - annualChatGPTCost;
+
+            document.getElementById('monthly-savings').textContent = formatCurrency(netMonthlySavings);
+            document.getElementById('annual-savings').textContent = formatCurrency(netAnnualSavings);
+
+            const warning = document.getElementById('warning');
+            warning.style.display = netAnnualSavings <= 0 ? 'block' : 'none';
+        }
+
+        ['users-slider', 'rate-slider', 'hours-slider', 'savings-slider'].forEach(id => {
+            const slider = document.getElementById(id);
+            const valueSpan = document.getElementById(id.replace('-slider', '-value'));
+            slider.addEventListener('input', function() {
+                valueSpan.textContent = this.value;
+                calculateROI();
+            });
+        });
+
+        calculateROI();
+    </script>
+</body>
+</html>
