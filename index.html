@@ -8,14 +8,14 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #111827;
+            background: #020A23;
             color: white;
             padding: 20px;
         }
         .calculator {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: #111827;
+            background: #020A23;
             border-radius: 12px;
             overflow: hidden;
         }
@@ -23,7 +23,7 @@
             text-align: center;
             padding: 20px;
             background: #f3f4f6;
-            color: #111827;
+            color: #020A23;
         }
         .header h2 { font-size: 1.8rem; font-weight: bold; }
         .content {
@@ -41,27 +41,39 @@
         .control-label { font-size: 0.9rem; font-weight: 500; }
         .slider {
             width: 100%;
-            height: 6px;
-            border-radius: 3px;
-            background: #4b5563;
+            height: 8px;
+            border-radius: 4px;
+            background: #FFEBED;
             outline: none;
             -webkit-appearance: none;
+            cursor: pointer;
         }
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            background: #3b82f6;
-            cursor: pointer;
+            background: #FF3449;
+            cursor: grab;
+            border: 2px solid #FFEBED;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .slider::-webkit-slider-thumb:active {
+            cursor: grabbing;
+            transform: scale(1.1);
         }
         .slider::-moz-range-thumb {
-            width: 18px;
-            height: 18px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            background: #3b82f6;
-            cursor: pointer;
-            border: none;
+            background: #FF3449;
+            cursor: grab;
+            border: 2px solid #FFEBED;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .slider::-moz-range-thumb:active {
+            cursor: grabbing;
+            transform: scale(1.1);
         }
         .billing-toggle {
             display: flex;
@@ -77,53 +89,90 @@
         .billing-option input[type="radio"] {
             width: 16px;
             height: 16px;
-            accent-color: #3b82f6;
+            accent-color: #FF3449;
         }
         .results { 
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
         }
         .result-card {
-            background: #1f2937;
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-        }
-        .result-label { 
-            font-size: 0.85rem; 
-            color: #d1d5db; 
-            margin-bottom: 8px; 
-        }
-        .result-value { 
-            font-size: 1.8rem; 
-            font-weight: bold; 
-            line-height: 1.2; 
-        }
-        .result-period { font-size: 0.9rem; }
-        .savings-card {
-            background: linear-gradient(135deg, #065f46, #047857);
-        }
-        .expense-card {
-            background: linear-gradient(135deg, #7c2d12, #ea580c);
-        }
-        .roi-card {
-            background: linear-gradient(135deg, #1e40af, #3b82f6);
-            font-size: 2.2rem;
-        }
-        .warning {
-            background: rgba(153, 27, 27, 0.3);
-            border: 1px solid #dc2626;
+            background: rgba(255, 235, 237, 0.1);
+            border: 1px solid rgba(255, 235, 237, 0.2);
             border-radius: 8px;
             padding: 12px;
             text-align: center;
         }
-        .warning-text { color: #fca5a5; font-size: 0.8rem; }
+        .result-label { 
+            font-size: 0.8rem; 
+            color: #FFEBED; 
+            margin-bottom: 6px; 
+        }
+        .result-value { 
+            font-size: 1.4rem; 
+            font-weight: bold; 
+            line-height: 1.2; 
+            color: white;
+        }
+        .calculation-card {
+            border-color: #6b7280;
+            background: rgba(107, 114, 128, 0.1);
+        }
+        .calculation-card .result-value {
+            color: #d1d5db;
+            font-size: 1.2rem;
+        }
+        .savings-card {
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.1);
+        }
+        .savings-card .result-value {
+            color: #22c55e;
+        }
+        .expense-card {
+            border-color: #FF3449;
+            background: rgba(255, 52, 73, 0.1);
+        }
+        .expense-card .result-value {
+            color: #FF3449;
+        }
+        .roi-card {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+            font-size: 2.2rem;
+        }
+        .roi-card .result-value {
+            color: #3b82f6;
+            font-size: 1.8rem;
+        }
+        .roi-negative {
+            border-color: #FF3449;
+            background: rgba(255, 52, 73, 0.1);
+        }
+        .roi-negative .result-value {
+            color: #FF3449;
+        }
+        .roi-moderate {
+            border-color: #eab308;
+            background: rgba(234, 179, 8, 0.1);
+        }
+        .roi-moderate .result-value {
+            color: #eab308;
+        }
+        .warning {
+            background: rgba(255, 52, 73, 0.2);
+            border: 1px solid #FF3449;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        .warning-text { color: #FF3449; font-size: 0.8rem; }
         .disclaimer { 
             font-size: 0.7rem; 
-            color: #9ca3af; 
+            color: #FFEBED; 
             text-align: center;
             margin-top: 10px;
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -136,7 +185,7 @@
             <div class="controls">
                 <div class="control-group">
                     <label class="control-label">Number of Users: <span id="users-value">5</span></label>
-                    <input type="range" min="1" max="20" value="5" class="slider" id="users-slider">
+                    <input type="range" min="1" max="25" value="5" class="slider" id="users-slider">
                 </div>
                 
                 <div class="control-group">
@@ -170,10 +219,24 @@
             </div>
             
             <div class="results">
-                <div class="result-card savings-card">
-                    <p class="result-label">Net Annual Savings</p>
+                <div class="result-card calculation-card">
+                    <p class="result-label">Current Annual Labor Cost</p>
                     <p class="result-value">
-                        <span id="annual-savings">$0</span>
+                        <span id="current-cost">$0</span>
+                    </p>
+                </div>
+                
+                <div class="result-card calculation-card">
+                    <p class="result-label">Future Annual Labor Cost</p>
+                    <p class="result-value">
+                        <span id="future-cost">$0</span>
+                    </p>
+                </div>
+                
+                <div class="result-card savings-card">
+                    <p class="result-label">Annual Labor Savings</p>
+                    <p class="result-value">
+                        <span id="labor-savings">$0</span>
                     </p>
                 </div>
                 
@@ -184,7 +247,14 @@
                     </p>
                 </div>
                 
-                <div class="result-card roi-card">
+                <div class="result-card savings-card">
+                    <p class="result-label">Net Annual Savings</p>
+                    <p class="result-value">
+                        <span id="net-savings">$0</span>
+                    </p>
+                </div>
+                
+                <div class="result-card roi-card" id="roi-card">
                     <p class="result-label">Return on Investment</p>
                     <p class="result-value">
                         <span id="roi-percentage">0</span>%
@@ -198,8 +268,8 @@
                 </div>
                 
                 <div class="disclaimer">
-                    <p>Based on 574 SOWs annually</p>
-                    <p>ROI = (Gross Savings - ChatGPT Cost) / ChatGPT Cost × 100</p>
+                    <p>Labor cost = Users × Hourly Rate × Hours/Week × 52 weeks</p>
+                    <p>ROI = Net Savings / ChatGPT Cost × 100</p>
                 </div>
             </div>
         </div>
@@ -216,42 +286,45 @@
         function calculateROI() {
             const numUsers = parseInt(document.getElementById('users-slider').value);
             const hourlyRate = parseInt(document.getElementById('rate-slider').value);
-            const hoursPerSOW = parseFloat(document.getElementById('hours-slider').value);
+            const hoursPerWeek = parseFloat(document.getElementById('hours-slider').value);
             const timeSaving = parseInt(document.getElementById('savings-slider').value);
             const billingType = document.querySelector('input[name="billing"]:checked').value;
 
-            const sowsPerYear = 574;
-            const manualTime = hoursPerSOW;
-            const automatedTime = manualTime * (1 - timeSaving / 100);
-            const savingsPerSOW = hourlyRate * (manualTime - automatedTime);
-            const grossAnnualSavings = savingsPerSOW * sowsPerYear;
+            // Calculate annual labor costs
+            const currentAnnualLaborCost = numUsers * hourlyRate * hoursPerWeek * 52;
+            const futureAnnualLaborCost = numUsers * hourlyRate * (hoursPerWeek * (1 - timeSaving / 100)) * 52;
+            const annualLaborSavings = currentAnnualLaborCost - futureAnnualLaborCost;
 
             // ChatGPT costs based on billing type
             const monthlyRatePerUser = billingType === 'annual' ? 25 : 30;
             const annualChatGPTCost = numUsers * monthlyRatePerUser * 12;
             
             // Net savings and ROI
-            const netAnnualSavings = grossAnnualSavings - annualChatGPTCost;
+            const netAnnualSavings = annualLaborSavings - annualChatGPTCost;
             const roiPercentage = annualChatGPTCost > 0 ? (netAnnualSavings / annualChatGPTCost) * 100 : 0;
 
             // Update display
-            document.getElementById('annual-savings').textContent = formatCurrency(netAnnualSavings);
+            document.getElementById('current-cost').textContent = formatCurrency(currentAnnualLaborCost);
+            document.getElementById('future-cost').textContent = formatCurrency(futureAnnualLaborCost);
+            document.getElementById('labor-savings').textContent = formatCurrency(annualLaborSavings);
             document.getElementById('chatgpt-cost').textContent = formatCurrency(annualChatGPTCost);
+            document.getElementById('net-savings').textContent = formatCurrency(netAnnualSavings);
             document.getElementById('roi-percentage').textContent = Math.round(roiPercentage);
 
             // Show/hide warning
             const warning = document.getElementById('warning');
             warning.style.display = netAnnualSavings <= 0 ? 'block' : 'none';
             
-            // Update ROI card color based on performance
-            const roiCard = document.querySelector('.roi-card');
+            // Update ROI card styling based on performance
+            const roiCard = document.getElementById('roi-card');
+            roiCard.className = 'result-card roi-card';
+            
             if (roiPercentage < 0) {
-                roiCard.style.background = 'linear-gradient(135deg, #7f1d1d, #dc2626)';
+                roiCard.classList.add('roi-negative');
             } else if (roiPercentage < 100) {
-                roiCard.style.background = 'linear-gradient(135deg, #a16207, #eab308)';
-            } else {
-                roiCard.style.background = 'linear-gradient(135deg, #1e40af, #3b82f6)';
+                roiCard.classList.add('roi-moderate');
             }
+            // Default blue styling for 100%+ ROI
         }
 
         // Event listeners for sliders
